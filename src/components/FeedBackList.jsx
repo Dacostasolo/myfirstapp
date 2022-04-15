@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from 'framer-motion'
 import FeedBackItem from './FeedBackItem'
 import PropTypes from 'prop-types'
 
@@ -7,17 +8,39 @@ function FeedBackList({ feedBack, handleDelete }) {
   }
   return (
     <div className='feedback-list'>
-      {feedBack.map((item) => {
-        return (
-          <FeedBackItem
-            key={item.id}
-            item={item}
-            deleteHandler={handleDelete}
-          />
-        )
-      })}
+      <AnimatePresence>
+        {feedBack.map((item) => {
+          return (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, transitionDuration: '250ms' }}
+              animate={{ opacity: 1, transitionDuration: '250ms' }}
+              exit={{ opacity: 0, transitionDuration: '250ms' }}
+            >
+              <FeedBackItem
+                key={item.id}
+                item={item}
+                deleteHandler={handleDelete}
+              />
+            </motion.div>
+          )
+        })}
+      </AnimatePresence>
     </div>
   )
+  // return (
+  //   <div className='feedback-list'>
+  //     {feedBack.map((item) => {
+  //       return (
+  //         <FeedBackItem
+  //           key={item.id}
+  //           item={item}
+  //           deleteHandler={handleDelete}
+  //         />
+  //       )
+  //     })}
+  //   </div>
+  // )
 }
 
 FeedBackList.propTypes = {

@@ -1,11 +1,25 @@
 import { useState } from 'react'
+import RatingSelect from './RatingSelect'
 import Button from './shared/Button'
 import Card from './shared/Card'
 
-function FeedBackForm() {
+function FeedBackForm({ addFeedBack }) {
   const [text, setTextState] = useState('')
   const [message, setMessageState] = useState('')
   const [isDisabled, setButtonState] = useState(true)
+  const [rating, setRatingstate] = useState(10)
+
+  const submitFeedBack = (e) => {
+    e.preventDefault()
+    if (text.trim().length > 10) {
+      const feedBack = {
+        rating,
+        text,
+      }
+      addFeedBack(feedBack)
+      setTextState('')
+    }
+  }
 
   const textChangeHanler = (e) => {
     if (text === '') {
@@ -23,8 +37,9 @@ function FeedBackForm() {
 
   return (
     <Card>
-      <form>
+      <form onSubmit={submitFeedBack}>
         <h2>How will you rate your service with us?</h2>
+        <RatingSelect selectValue={(rating) => setRatingstate(rating)} />
         <div className='input-group'>
           <input
             type='text'
